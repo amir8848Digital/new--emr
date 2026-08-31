@@ -1,0 +1,8 @@
+[submodule "emr_node"]
+	path = emr_node
+	url = https://github.com/8848digital/emr_node.git
+	branch = ai_implementation
+[submodule "Basecamp_Frontend"]
+	path = Basecamp_Frontend
+	url = https://github.com/8848digital/Basecamp_Frontend.git
+	branch = feat/wvr-frontend-changes
