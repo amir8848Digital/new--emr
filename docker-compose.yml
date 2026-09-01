@@ -1,0 +1,104 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# docker-compose.yml — BUILD/PROD mode: bakes your source code INTO real images
+# (via each service's Dockerfile), then runs the compiled/production output.
+# Slower to start (has to `npm install` + build every time something changes),
+# but this is what you'd actually ship/deploy — it's the same image a server runs.
+#
+# Editing a file does NOTHING here until you rebuild:
+#   docker compose up -d --build
+#
+# Want instant live-reload while you code instead? Use docker-compose.dev.yml:
+#   docker compose -f docker-compose.dev.yml up
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: emr # prefix Docker uses for container/network/volume names (emr-backend, emr_emr-net, ...)
+
+services: # everything below this key is "what containers do I want?"
+  backend: # ── service #1: the Node/Express API ──────────────────────────────
+    # No `db:` service here on purpose — you already have a SQL Server container
+    # running outside this compose project. We just point `backend` at it instead
+    # of managing our own.
+
+    build:
+      context: ./emr_node # folder containing the Dockerfile + source to build this image from
+      # (no `dockerfile:` line needed — it defaults to "Dockerfile" inside that context folder)
+
+    container_name: emr-backend # the name you'll see in `docker ps` / use in `docker logs <name>`
+
+    environment: # env vars injected INTO the running container — the app reads these via
+      # process.env.X. Values come from the root .env file (NOT committed — copy it from
+      # .env.example first, see DOCKER.md) via Compose's ${VAR} substitution, so nothing
+      # is hardcoded here and nobody's real credentials end up in git.
+      DB_CLIENT: ${DB_CLIENT}
+      DB_USER: ${DB_USER}
+      # host.docker.internal is Docker's own cross-platform DNS name for "the machine
+      # Docker itself is running on" — works out of the box on Docker Desktop
+      # (Mac/Windows); on Linux it needs the extra_hosts line below to exist at all.
+      # This is what makes DB_HOST reach your existing db container's published port,
+      # on ANY teammate's OS — plain "localhost" here would mean this container itself.
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      PORT: ${BACKEND_PORT} # tells emr_node's index.js which port to listen on inside the container
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      COCD: ${COCD}
+
+    extra_hosts:
+      # only strictly needed on Linux (Docker Desktop already provides this mapping
+      # automatically) — but harmless to always include, so this file works identically
+      # for every teammate regardless of OS without them needing to know why
+      - "host.docker.internal:host-gateway"
+
+    ports:
+      # "HOST:CONTAINER" — HOST is the port on YOUR machine, CONTAINER is the port
+      # the app listens on inside the box. So http://localhost:${BACKEND_PORT} on your
+      # machine forwards into the container's port ${BACKEND_PORT}.
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+
+    volumes:
+      # keeps uploaded files across restarts. Without this, `docker compose down` would
+      # wipe anything the app wrote to /app/uploads inside the container.
+      - backend-uploads:/app/uploads
+
+    networks: [emr-net] # puts this container on the private network defined below, so it
+    # can reach `frontend` (and vice versa) by container name, like a hostname
+
+    restart: unless-stopped # if the container crashes, Docker restarts it automatically
+    # (but won't restart it if YOU stopped it on purpose)
+
+  frontend: # ── service #2: the Next.js web app ────────────────────────────────
+    build:
+      context: ./Basecamp_Frontend
+      args:
+        # Next.js "bakes" these NEXT_PUBLIC_* values into the JS bundle at BUILD time
+        # (not runtime) — so they're passed here as build args, not `environment:`.
+        # Still sourced from the root .env, same ${VAR} substitution as backend above.
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_API_URL_CUSTOM: ${NEXT_PUBLIC_API_URL_CUSTOM}
+        NEXT_PUBLIC_CLIENT_NAME: ${NEXT_PUBLIC_CLIENT_NAME}
+
+    container_name: emr-frontend
+
+    depends_on: [backend] # start `backend` first, then start this one
+    # (NOTE: this only waits for the container to START, not for the app inside it to be
+    # actually ready — good enough here since the frontend just needs backend's port open
+    # eventually, not immediately)
+
+    ports:
+      - "${FRONTEND_PORT}:3000" # container's Next.js always listens on 3000; you browse localhost:${FRONTEND_PORT}
+
+    networks: [emr-net]
+    restart: unless-stopped
+
+networks: # a private virtual network so containers can talk to each other by name
+  emr-net:
+    driver: bridge # the standard Docker network type — fine for local dev
+
+volumes: # named volumes — persistent storage that survives `docker compose down`
+  # (but NOT `docker compose down -v`, which deletes volumes too)
+  backend-uploads:

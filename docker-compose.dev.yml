@@ -1,0 +1,117 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# docker-compose.dev.yml — DEV mode: live-reload, no image build step.
+#
+# Instead of baking your source code INTO an image (like docker-compose.yml does),
+# this mounts your actual source folders straight into plain node:20-alpine
+# containers and runs `npm run dev` inside them. Edit a file on your machine →
+# nodemon/Next's dev server sees the change instantly → no rebuild, no restart.
+#
+# Run it with:
+#   docker compose -f docker-compose.dev.yml up
+#
+# (needs the -f flag every time, since this ISN'T the default docker-compose.yml —
+# see the bottom of this file for a shortcut if you don't want to keep typing it)
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: emr-dev # separate project name from docker-compose.yml, so `docker compose up`
+# (build mode) and `docker compose -f docker-compose.dev.yml up` (this file) never
+# collide or fight over the same container names/network/volumes
+
+services:
+  # No `db:` service here on purpose — you already have a SQL Server container running
+  # outside this compose project. `backend` below points at it directly instead.
+
+  backend:
+    image: node:20-alpine # no Dockerfile/build — just the plain Node image
+    container_name: emr-dev-backend
+    working_dir: /app
+
+    networks: [emr-dev-net]
+
+    extra_hosts:
+      # host.docker.internal = Docker's cross-platform name for "the machine Docker is
+      # running on" — works out of the box on Docker Desktop (Mac/Windows); Linux needs
+      # this line to exist at all. See docker-compose.yml's backend for the full writeup.
+      - "host.docker.internal:host-gateway"
+
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+
+    volumes:
+      # mount your actual source folder INTO the container at /app — this is what
+      # makes live-reload possible: the container sees every save immediately
+      - ./emr_node:/app
+      # a separate, container-only volume for node_modules — WITHOUT this, the bind
+      # mount above would hide/replace node_modules with whatever's on your host
+      # (or nothing, if you haven't run `npm install` locally), and any native
+      # module (bcrypt, sharp) built for your host OS can crash inside Linux Alpine
+      - backend-dev-node-modules:/app/node_modules
+
+    # installs deps every start (fast if node_modules volume already has them —
+    # npm skips anything already satisfied) then runs nodemon, matching
+    # emr_node's own "dev" script
+    command: sh -c "npm install --ignore-scripts && npm run dev"
+
+    environment:
+      # values come from the root .env file (NOT committed — copy it from .env.example
+      # first, see DOCKER.md), via Compose's ${VAR} substitution
+      DB_CLIENT: ${DB_CLIENT}
+      DB_USER: ${DB_USER}
+      # reaches your existing db container's published port on any teammate's OS —
+      # see the extra_hosts entry above
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      PORT: ${BACKEND_PORT}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      COCD: ${COCD}
+
+  frontend:
+    image: node:20-alpine
+    container_name: emr-dev-frontend
+    working_dir: /app
+    depends_on: [backend]
+
+    volumes:
+      - ./Basecamp_Frontend:/app
+      - frontend-dev-node-modules:/app/node_modules
+      # Next.js's own build cache — keeping this in a volume (not wiped with the
+      # bind mount) makes the SECOND `docker compose up` noticeably faster
+      - frontend-dev-next-cache:/app/.next
+
+    command: sh -c "npm install && npm run dev"
+
+    environment:
+      # in dev mode these are just normal env vars read when `next dev` starts —
+      # no build-arg dance needed here, that's only a --build/production concern.
+      # Still sourced from the root .env, same ${VAR} substitution as everything else.
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      NEXT_PUBLIC_API_URL_CUSTOM: ${NEXT_PUBLIC_API_URL_CUSTOM}
+      NEXT_PUBLIC_CLIENT_NAME: ${NEXT_PUBLIC_CLIENT_NAME}
+
+    ports:
+      - "${FRONTEND_PORT}:3000"
+
+    networks: [emr-dev-net]
+
+networks:
+  emr-dev-net:
+    driver: bridge
+
+volumes:
+  backend-dev-node-modules:
+  frontend-dev-node-modules:
+  frontend-dev-next-cache:
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Optional shortcut: instead of typing `-f docker-compose.dev.yml` every time,
+# set an env var once per terminal session:
+#   export COMPOSE_FILE=docker-compose.dev.yml
+# then plain `docker compose up` / `docker compose down` use this file until you
+# close that terminal or unset it.
+# ─────────────────────────────────────────────────────────────────────────────
