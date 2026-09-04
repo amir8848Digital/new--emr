@@ -1,2 +1,3 @@
 # Real local config — copy .env.example to .env instead of committing this file.
 .env
+node_modules

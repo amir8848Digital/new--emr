@@ -1,0 +1,11 @@
+{
+  "name": "emr-db-migration",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Replicate the SQL Server EMR6122 database into PostgreSQL and MariaDB",
+  "dependencies": {
+    "mariadb": "^3.5.3",
+    "mssql": "^12.2.0",
+    "pg": "^8.16.2"
+  }
+}
