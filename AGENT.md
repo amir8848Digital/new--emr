@@ -1,17 +1,21 @@
 # EMR — VB6 → modern web migration
 
-> `CLAUDE.md` in this directory is a symlink to this file — one source of truth, and Claude Code
-> auto-loads it at session start. Edit `AGENT.md`; never replace the symlink with a copy.
+> `CLAUDE.md` in this directory should be a **symlink** to this file — one source of truth, and Claude
+> Code auto-loads it at session start. Edit `AGENT.md`; never replace the symlink with a copy.
+> The symlink is NOT tracked in git, so a fresh clone does not have it and this file is then never
+> auto-loaded. Recreate it with `ln -s AGENT.md CLAUDE.md` (verified missing on a Linux checkout,
+> 2026-09-09).
 
-`/Users/amir/emr` is a **container directory, not a repo.** It holds two independent git repos plus a
-read-only legacy source dump. Always confirm which one a task belongs to before editing.
+**This directory is a container, not a repo** (it has been checked out at `/Users/amir/emr` and at
+`/home/amir/code/new--emr` — don't hardcode either; derive it). It holds two independent git repos
+plus a read-only legacy source dump. Always confirm which one a task belongs to before editing.
 
 | Directory | What it is | Status |
 |---|---|---|
 | `emr_node/` | **The backend.** Node/Express + a doctype framework. 235 doctypes. | Active — default target |
 | `Basecamp_Frontend/` | **The frontend.** Next.js 15 App Router, React 19, JSON-driven forms. | Active |
 | `61BACK ForRn/` | **The legacy VB6 source.** The original app, verbatim. | Read-only reference — never edit |
-| `SriRnBackup/` | **A partial VB6 backup snapshot.** A cut-down "Sri" project + the MWF custom-control library. | Read-only reference — never edit |
+| `SriRnBackup/` | **A partial VB6 backup snapshot.** A cut-down "Sri" project + the MWF custom-control library. | Read-only reference — never edit; **absent in some checkouts** |
 
 Remotes are `github.com/8848digital/{emr_node,Basecamp_Frontend}`. **Don't record current branch
 names anywhere** — they change under you mid-session (measured: `emr_node` moved `fix/master-p` →
@@ -113,6 +117,29 @@ Don't re-derive what these already cover.
 
 Skills and each repo's `CLAUDE.md` are directory-scoped and load automatically when working under
 that repo. **`.agent/` does not** — open it explicitly.
+
+## The backend runs on THREE databases
+
+`DB_CLIENT` picks the adapter at runtime — PostgreSQL, SQL Server or MariaDB — from **one** source
+tree. The code is written in a single dialect (Postgres) and each adapter translates it outward, so
+**a T-SQL construct in app code is a bug**, not a style choice: `ISNULL`, `SELECT TOP`, `CONVERT`,
+`STR`, `IIF`, `GETDATE()`, `@paramN` placeholders, and `+` between strings.
+
+Three of those fail *silently* rather than erroring, which is why this needs stating at this level:
+
+- **`+` for string concatenation** is numeric addition on MariaDB — `',' + "OdTc" + ','` evaluates to
+  `0` with no error, and the query matches the wrong rows.
+- **The T-SQL `LIKE` character class** (`NOT LIKE '%[^0-9]%'`) is read as literal characters by the
+  other two engines. Measured on `EMR6122`: 1333 rows pass where the correct predicate returns 6.
+- **Unquoted identifiers** fold to lower case on Postgres, and the tables are created mixed-case.
+
+Full rules, the decision ladder, and how to verify against all three live engines:
+`emr_node/.claude/skills/sql-dialect-portability/SKILL.md`. Trigger-level rules are a separate
+concern — `emr_node/.claude/skills/db-trigger-migration/SKILL.md`.
+
+Local verification containers (`docker ps`): `mssql-container` :1433, `pg-emr6122` :5433,
+`mariadb-emr6122` :3307, database `EMR6122` on each. Their contents **drift** from one another, so
+scope any cross-engine comparison to a fixture whose row counts are verified equal first.
 
 ## Running the app
 
