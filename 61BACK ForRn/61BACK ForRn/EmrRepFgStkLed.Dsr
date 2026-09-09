@@ -1,0 +1,43 @@
+VERSION 5.00
+Begin {BD4B4E61-F7B8-11D0-964D-00A0C9273C2A} EmrRepFgStkLed 
+   ClientHeight    =   11340
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   19665
+   OleObjectBlob   =   "EmrRepFgStkLed.dsx":0000
+End
+Attribute VB_Name = "EmrRepFgStkLed"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Dim mf_PicHt As Single
+Dim mf_PicWdth As Single
+
+Private Sub PicSecF_Format(ByVal pFormattingInfo As Object)
+ mf_PicHt = picdesgn.Height
+ mf_PicWdth = picdesgn.Width
+ Call SetRptPic(mf_PicHt, mf_PicWdth, picdesgn, "DM", False, True, FldDmCd.Value, FldDmSz.Value, PicSecF, , , , , , , "")
+  
+End Sub
+
+Private Sub PicSecH1_Format(ByVal pFormattingInfo As Object)
+ mf_PicHt = picdesgn.Height
+ mf_PicWdth = picdesgn.Width
+ Call SetRptPic(mf_PicHt, mf_PicWdth, picdesgn1, "DM", False, True, FldDmCd.Value, FldDmSz.Value, PicSecH1, , , , , , , "")
+  
+End Sub
+
+Private Sub PicSecH2_Format(ByVal pFormattingInfo As Object)
+ mf_PicHt = picdesgn.Height
+ mf_PicWdth = picdesgn.Width
+ Call SetRptPic(mf_PicHt, mf_PicWdth, picdesgn2, "DM", False, True, FldDmCd.Value, FldDmSz.Value, PicSecH2, , , , , , , "")
+  
+End Sub
+
+Private Sub RHLogo_Format(ByVal pFormattingInfo As Object)
+  If mf_PicHt = 0 Then mf_PicHt = PicLogo.Height
+  If mf_PicWdth = 0 Then mf_PicWdth = PicLogo.Width
+  Call SetRptLogoPic(mf_PicHt, mf_PicWdth, PicLogo, gs_CoCd, RHLogo)
+
+End Sub

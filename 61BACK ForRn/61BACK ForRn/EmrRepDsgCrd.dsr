@@ -1,0 +1,90 @@
+VERSION 5.00
+Begin {BD4B4E61-F7B8-11D0-964D-00A0C9273C2A} EmrRepDsgCrd 
+   ClientHeight    =   9450
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   14970
+   OleObjectBlob   =   "EmrRepDsgCrd.dsx":0000
+End
+Attribute VB_Name = "EmrRepDsgCrd"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+'*** 2.12 (Jen) (17/08/05)
+Dim mf_PicSkHt As Single
+Dim mf_PicSkWdth As Single
+
+Dim mf_Pic3DHt As Single
+Dim mf_Pic3DWdth As Single
+'*** 2.12 (Jen) (17/08/05)
+
+Dim mf_PicHtLogo As Single
+Dim mf_PicWdthLogo As Single
+
+Private Sub AddlImagesSec_Format(ByVal pFormattingInfo As Object)
+ 
+ 'Sachin 3.11.0 - Additional Images
+  Call SetRptPic(mf_Pic3DHt, mf_Pic3DWdth, PicImg1, FldDmTcTyp.Value, False, False, FldDmCd.Value, FldDmSz.Value, , , , , , , , , "1")
+  Call SetRptPic(mf_Pic3DHt, mf_Pic3DWdth, PicImg2, FldDmTcTyp.Value, False, False, FldDmCd.Value, FldDmSz.Value, , , , , , , , , "2")
+  Call SetRptPic(mf_Pic3DHt, mf_Pic3DWdth, PicImg3, FldDmTcTyp.Value, False, False, FldDmCd.Value, FldDmSz.Value, , , , , , , , , "3")
+ 
+End Sub
+
+Private Sub MainSec_Format(ByVal pFormattingInfo As Object)
+  wPicHskHt = Me.PicSk.Height: wPicHskWdt = Me.PicSk.Width
+  wPic3DHt = Me.Pic3D.Height: wPic3DWdt = Me.Pic3D.Width
+  
+  ' **** Zubin 211 **** '
+  '''''  wHskPth = GetPictPath(FldDmTcTyp.Value, True, FldDmCd.Value, FldDmSz.Value)
+  '''''  w3DPth = GetPictPath(FldDmTcTyp.Value, False, FldDmCd.Value, FldDmSz.Value)
+  
+  '*** 2.12 (Jen) (17/08/05) (This code can be used to maintain the exact proportion of the pictures)
+  If mf_PicSkHt = 0 Then mf_PicSkHt = PicSk.Height
+  If mf_PicSkWdth = 0 Then mf_PicSkWdth = PicSk.Width
+  If mf_Pic3DHt = 0 Then mf_Pic3DHt = Pic3D.Height
+  If mf_Pic3DWdth = 0 Then mf_Pic3DWdth = Pic3D.Width
+  Call SetRptPic(mf_PicSkHt, mf_PicSkWdth, PicSk, FldDmTcTyp.Value, True, False, FldDmCd.Value, FldDmSz.Value)
+  Call SetRptPic(mf_Pic3DHt, mf_Pic3DWdth, Pic3D, FldDmTcTyp.Value, False, False, FldDmCd.Value, FldDmSz.Value)
+  
+  '*** 2.12 (Jen) (17/08/05) (This code can be used to maintain the exact proportion of the pictures)
+  
+  '*** (Bef 2.12)
+  'Call SetRptPic(PicSk, FldDmTcTyp.Value, True, False, FldDmCd.Value, FldDmSz.Value)
+  'Call SetRptPic(Pic3D, FldDmTcTyp.Value, False, False, FldDmCd.Value, FldDmSz.Value)
+  '*** (Bef 2.12)
+  
+  
+'''''  '###
+'''''  'Call ShowPic(wPicHskHt, wPicHskWdt, wHskPth, EmrFrpDsgCrd.Pic)
+'''''  If Dir(wHskPth) <> "" And wHskPth <> "" Then
+'''''    Set PicSk.FormattedPicture = LoadPicture(wHskPth)
+'''''    'PicSk.Height = IIf(EmrFrpDsgCrd.Pic.Height >= 60, EmrFrpDsgCrd.Pic.Height, 60)
+'''''    'PicSk.Width = IIf(EmrFrpDsgCrd.Pic.Width >= 60, EmrFrpDsgCrd.Pic.Width, 60)
+'''''  Else
+'''''    'PicSk.Suppress = True
+'''''    'TxtSk.Suppress = True
+'''''  End If
+'''''
+'''''  'Call ShowPic(wPic3DHt, wPic3DWdt, w3DPth, EmrFrpDsgCrd.Pic)
+'''''  If Dir(w3DPth) <> "" And w3DPth <> "" Then
+'''''    Set Pic3D.FormattedPicture = LoadPicture(w3DPth)
+'''''    'Pic3D.Height = IIf(EmrFrpDsgCrd.Pic.Height >= 60, EmrFrpDsgCrd.Pic.Height, 60)
+'''''    'Pic3D.Width = IIf(EmrFrpDsgCrd.Pic.Width >= 60, EmrFrpDsgCrd.Pic.Width, 60)
+'''''  Else
+'''''    'Pic3D.Suppress = True
+'''''    'Txt3D.Suppress = True
+'''''  End If
+'''''
+'''''  'EmrFrpDsgCrd.Visible = False
+'''''  '###
+'''''
+  ' **** Zubin 211 **** '
+End Sub
+
+Private Sub RHLogo_Format(ByVal pFormattingInfo As Object)
+  If mf_PicHtLogo = 0 Then mf_PicHtLogo = PicLogo.Height
+  If mf_PicWdthLogo = 0 Then mf_PicWdthLogo = PicLogo.Width
+  Call SetRptLogoPic(mf_PicHtLogo, mf_PicWdthLogo, PicLogo, gs_CoCd, RHLogo)
+End Sub
+

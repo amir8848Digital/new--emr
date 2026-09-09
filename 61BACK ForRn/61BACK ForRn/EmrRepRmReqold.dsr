@@ -1,0 +1,44 @@
+VERSION 5.00
+Begin {BD4B4E61-F7B8-11D0-964D-00A0C9273C2A} EmrRepRmReqold 
+   ClientHeight    =   9450
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   14115
+   OleObjectBlob   =   "EmrRepRmReqold.dsx":0000
+End
+Attribute VB_Name = "EmrRepRmReqold"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = False
+Dim mf_PicHtLogo As Single
+Dim mf_PicWdthLogo As Single
+Dim mf_PicHtS As Single
+Dim mf_PicWdthS As Single
+Dim mf_PicHtB As Single
+Dim mf_PicWdthB As Single
+
+Private Sub DET_Format(ByVal pFormattingInfo As Object)
+'    Call GetRmSzDisp(FldRmSz1.Value, FldRmSz2.Value, FldRmSz3.Value, FldRmSzDisp)
+End Sub
+
+Private Sub RHLogo_Format(ByVal pFormattingInfo As Object)
+  If mf_PicHtLogo = 0 Then mf_PicHtLogo = PicLogo.Height
+  If mf_PicWdthLogo = 0 Then mf_PicWdthLogo = PicLogo.Width
+  Call SetRptLogoPic(mf_PicHtLogo, mf_PicWdthLogo, PicLogo, gs_CoCd, RHLogo)
+End Sub
+Private Sub PicSec_Format(ByVal pFormattingInfo As Object)
+'****** Sachin 2.14.0 - [Multi-Company] ******
+  wDmSfxSz.Left = FldDsgCd.Left
+    
+  If mf_PicHtB = 0 Then mf_PicHtB = picdesgn.Height
+  If mf_PicWdthB = 0 Then mf_PicWdthB = picdesgn.Width
+  If mf_PicHtS = 0 Then mf_PicHtS = picdes.Height
+  If mf_PicWdthS = 0 Then mf_PicWdthS = picdes.Width
+  
+  '*** Jay 3.2.0 [PicNm]
+  Call SetRptPic(mf_PicHtB, mf_PicWdthB, picdesgn, FldDmTcTyp.Value, False, True, FldDmCd.Value, FldDmSz.Value, PICSEC, , , , , , , FldOdPicNm.Value)
+  Call SetRptPic(mf_PicHtS, mf_PicWdthS, picdes, FldDmTcTyp.Value, False, True, FldDmCd.Value, FldDmSz.Value, PICSEC, , , , , , , FldOdPicNm.Value)
+  'Call SetRptPic(mf_PicHt, mf_PicWdth, picdesgn, FldDmTcTyp.Value, False, True, FldDmCd.Value, FldDmSz.Value, PicSec)
+'****** Sachin 2.14.0 - [Multi-Company] ******
+End Sub
