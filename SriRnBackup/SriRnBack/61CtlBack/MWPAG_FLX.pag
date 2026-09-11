@@ -1,0 +1,672 @@
+VERSION 5.00
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Begin VB.PropertyPage MWPAG_FLX 
+   Caption         =   "ppg_grd_hlp"
+   ClientHeight    =   5310
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   6555
+   PaletteMode     =   0  'Halftone
+   ScaleHeight     =   5310
+   ScaleWidth      =   6555
+   Begin VB.Frame fra_Data 
+      Height          =   4695
+      Left            =   30
+      TabIndex        =   29
+      Top             =   630
+      Visible         =   0   'False
+      Width           =   6495
+      Begin VB.CommandButton cmdcancel 
+         Caption         =   "Cancel"
+         Height          =   375
+         Left            =   3120
+         TabIndex        =   18
+         Top             =   4230
+         Width           =   855
+      End
+      Begin VB.CommandButton cmdok 
+         Caption         =   "OK"
+         Height          =   375
+         Left            =   2190
+         TabIndex        =   17
+         Top             =   4230
+         Width           =   855
+      End
+      Begin VB.ListBox LST_COLUMNS 
+         Columns         =   3
+         Height          =   1425
+         Left            =   360
+         Sorted          =   -1  'True
+         TabIndex        =   15
+         Top             =   1200
+         Width           =   5295
+      End
+      Begin VB.ComboBox CMB_TABLES 
+         Height          =   315
+         Left            =   2310
+         Style           =   2  'Dropdown List
+         TabIndex        =   14
+         Top             =   720
+         Width           =   1815
+      End
+      Begin VB.ListBox LST_COLDET 
+         BeginProperty Font 
+            Name            =   "Courier"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   450
+         Left            =   2280
+         TabIndex        =   16
+         Top             =   3240
+         Width           =   3375
+      End
+      Begin VB.TextBox TXT_DB 
+         Height          =   375
+         Left            =   2280
+         TabIndex        =   13
+         Top             =   240
+         Width           =   2775
+      End
+      Begin VB.Label Label2 
+         Caption         =   "Tables"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   1
+         Left            =   360
+         TabIndex        =   32
+         Top             =   660
+         Width           =   1335
+      End
+      Begin VB.Label Label1 
+         Caption         =   "DataBase"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   360
+         TabIndex        =   31
+         Top             =   240
+         Width           =   1215
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Details"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Index           =   1
+         Left            =   360
+         TabIndex        =   30
+         Top             =   3360
+         Width           =   1455
+      End
+   End
+   Begin VB.TextBox wcolname 
+      BackColor       =   &H80000004&
+      Enabled         =   0   'False
+      Height          =   315
+      Left            =   3810
+      TabIndex        =   36
+      Top             =   150
+      Width           =   2295
+   End
+   Begin VB.ComboBox Combo1 
+      Height          =   315
+      Left            =   1560
+      Style           =   2  'Dropdown List
+      TabIndex        =   0
+      Top             =   150
+      Width           =   2175
+   End
+   Begin TabDlg.SSTab SSTab1 
+      Height          =   4275
+      Left            =   120
+      TabIndex        =   1
+      Top             =   870
+      Width           =   6255
+      _ExtentX        =   11033
+      _ExtentY        =   7541
+      _Version        =   393216
+      Style           =   1
+      Tabs            =   2
+      TabsPerRow      =   2
+      TabHeight       =   520
+      TabCaption(0)   =   "&General"
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "arr_lbl_dscs"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).Control(1)=   "Label2(0)"
+      Tab(0).Control(1).Enabled=   0   'False
+      Tab(0).Control(2)=   "Label3(0)"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(3)=   "Label4"
+      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).Control(4)=   "Label5(0)"
+      Tab(0).Control(4).Enabled=   0   'False
+      Tab(0).Control(5)=   "Label5(1)"
+      Tab(0).Control(5).Enabled=   0   'False
+      Tab(0).Control(6)=   "Label5(2)"
+      Tab(0).Control(6).Enabled=   0   'False
+      Tab(0).Control(7)=   "Label5(3)"
+      Tab(0).Control(7).Enabled=   0   'False
+      Tab(0).Control(8)=   "Label3(3)"
+      Tab(0).Control(8).Enabled=   0   'False
+      Tab(0).Control(9)=   "arr_txt_props(0)"
+      Tab(0).Control(9).Enabled=   0   'False
+      Tab(0).Control(10)=   "arr_txt_props(1)"
+      Tab(0).Control(10).Enabled=   0   'False
+      Tab(0).Control(11)=   "arr_txt_props(2)"
+      Tab(0).Control(11).Enabled=   0   'False
+      Tab(0).Control(12)=   "arr_txt_props(3)"
+      Tab(0).Control(12).Enabled=   0   'False
+      Tab(0).Control(13)=   "arr_txt_props(4)"
+      Tab(0).Control(13).Enabled=   0   'False
+      Tab(0).Control(14)=   "arr_cmb_props(0)"
+      Tab(0).Control(14).Enabled=   0   'False
+      Tab(0).Control(15)=   "arr_cmb_props(1)"
+      Tab(0).Control(15).Enabled=   0   'False
+      Tab(0).Control(16)=   "cmddata"
+      Tab(0).Control(16).Enabled=   0   'False
+      Tab(0).Control(17)=   "arr_cmb_props(2)"
+      Tab(0).Control(17).Enabled=   0   'False
+      Tab(0).Control(18)=   "arr_txt_props(6)"
+      Tab(0).Control(18).Enabled=   0   'False
+      Tab(0).ControlCount=   19
+      TabCaption(1)   =   "&ReCalculate"
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "txt_recalcparent"
+      Tab(1).Control(1)=   "List1"
+      Tab(1).Control(2)=   "arr_txt_props(5)"
+      Tab(1).Control(3)=   "Label7"
+      Tab(1).Control(4)=   "Label6"
+      Tab(1).Control(5)=   "arr_lbls_dsc"
+      Tab(1).ControlCount=   6
+      Begin VB.TextBox arr_txt_props 
+         Height          =   375
+         Index           =   6
+         Left            =   2880
+         TabIndex        =   10
+         Top             =   3330
+         Width           =   3285
+      End
+      Begin VB.TextBox txt_recalcparent 
+         BackColor       =   &H80000004&
+         Enabled         =   0   'False
+         Height          =   1155
+         Left            =   -73290
+         MultiLine       =   -1  'True
+         TabIndex        =   34
+         Top             =   360
+         Width           =   4335
+      End
+      Begin VB.ComboBox arr_cmb_props 
+         Height          =   315
+         Index           =   2
+         Left            =   2880
+         Style           =   2  'Dropdown List
+         TabIndex        =   9
+         Top             =   3030
+         Width           =   2295
+      End
+      Begin VB.CommandButton cmddata 
+         Caption         =   "..."
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   4935
+         TabIndex        =   28
+         Top             =   540
+         Width           =   255
+      End
+      Begin VB.ComboBox arr_cmb_props 
+         Height          =   315
+         Index           =   1
+         Left            =   2880
+         Style           =   2  'Dropdown List
+         TabIndex        =   8
+         Top             =   2715
+         Width           =   2295
+      End
+      Begin VB.ComboBox arr_cmb_props 
+         Height          =   315
+         Index           =   0
+         Left            =   2880
+         Style           =   2  'Dropdown List
+         TabIndex        =   5
+         Top             =   1650
+         Width           =   2295
+      End
+      Begin VB.TextBox arr_txt_props 
+         Height          =   375
+         Index           =   4
+         Left            =   2880
+         TabIndex        =   7
+         Top             =   2340
+         Width           =   2295
+      End
+      Begin VB.ListBox List1 
+         Height          =   1425
+         Left            =   -73290
+         Sorted          =   -1  'True
+         TabIndex        =   12
+         Top             =   2310
+         Width           =   3375
+      End
+      Begin VB.TextBox arr_txt_props 
+         Height          =   795
+         Index           =   5
+         Left            =   -73290
+         MultiLine       =   -1  'True
+         TabIndex        =   11
+         Top             =   1500
+         Width           =   4335
+      End
+      Begin VB.TextBox arr_txt_props 
+         Height          =   375
+         Index           =   3
+         Left            =   2880
+         TabIndex        =   6
+         Top             =   1965
+         Width           =   2295
+      End
+      Begin VB.TextBox arr_txt_props 
+         Height          =   375
+         Index           =   2
+         Left            =   2880
+         TabIndex        =   2
+         Top             =   570
+         Width           =   2055
+      End
+      Begin VB.TextBox arr_txt_props 
+         Height          =   375
+         Index           =   1
+         Left            =   2880
+         TabIndex        =   3
+         Top             =   930
+         Width           =   2295
+      End
+      Begin VB.TextBox arr_txt_props 
+         Height          =   375
+         Index           =   0
+         Left            =   2880
+         TabIndex        =   4
+         Top             =   1290
+         Width           =   2295
+      End
+      Begin VB.Label Label3 
+         Caption         =   "ToolTipText"
+         Height          =   375
+         Index           =   3
+         Left            =   720
+         TabIndex        =   38
+         Top             =   3390
+         Width           =   2055
+      End
+      Begin VB.Label Label7 
+         Caption         =   "Call Recalculate Of"
+         Height          =   495
+         Left            =   -74880
+         TabIndex        =   35
+         Top             =   420
+         Width           =   1425
+      End
+      Begin VB.Label Label5 
+         Caption         =   "Help Type"
+         Height          =   375
+         Index           =   3
+         Left            =   720
+         TabIndex        =   33
+         Top             =   3045
+         Width           =   2055
+      End
+      Begin VB.Label Label5 
+         Caption         =   "Style"
+         Height          =   375
+         Index           =   2
+         Left            =   720
+         TabIndex        =   27
+         Top             =   2688
+         Width           =   2055
+      End
+      Begin VB.Label Label5 
+         Caption         =   "MaxLength"
+         Height          =   375
+         Index           =   1
+         Left            =   720
+         TabIndex        =   26
+         Top             =   2330
+         Width           =   2055
+      End
+      Begin VB.Label Label6 
+         Caption         =   "Controls Available"
+         Height          =   375
+         Left            =   -74880
+         TabIndex        =   25
+         Top             =   2160
+         Width           =   1575
+      End
+      Begin VB.Label arr_lbls_dsc 
+         Caption         =   "Recalculate On"
+         Height          =   495
+         Left            =   -74880
+         TabIndex        =   24
+         Top             =   1530
+         Width           =   1215
+      End
+      Begin VB.Label Label5 
+         Caption         =   "Format"
+         Height          =   375
+         Index           =   0
+         Left            =   720
+         TabIndex        =   23
+         Top             =   1972
+         Width           =   2055
+      End
+      Begin VB.Label Label4 
+         Caption         =   "DataType"
+         Height          =   375
+         Left            =   720
+         TabIndex        =   22
+         Top             =   1614
+         Width           =   2055
+      End
+      Begin VB.Label Label3 
+         Caption         =   "Data Field"
+         Height          =   375
+         Index           =   0
+         Left            =   750
+         TabIndex        =   21
+         Top             =   510
+         Width           =   2055
+      End
+      Begin VB.Label Label2 
+         Caption         =   "Heading"
+         Height          =   375
+         Index           =   0
+         Left            =   720
+         TabIndex        =   20
+         Top             =   898
+         Width           =   2055
+      End
+      Begin VB.Label arr_lbl_dscs 
+         Caption         =   "Name"
+         Height          =   375
+         Left            =   720
+         TabIndex        =   19
+         Top             =   1260
+         Width           =   1935
+      End
+   End
+   Begin VB.Label Label3 
+      Caption         =   "COLUMN"
+      Height          =   315
+      Index           =   2
+      Left            =   60
+      TabIndex        =   37
+      Top             =   180
+      Width           =   1395
+   End
+End
+Attribute VB_Name = "MWPAG_FLX"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Dim wprop_arr()
+Dim wf_callchng As Boolean
+Dim wtmpconn As mwflib.MDOConnection
+Dim wtmprs As mwflib.MDORowSet
+Dim ms_selcolname As String
+Dim me_selcoltype As en_FldDataType
+Dim mi_SelColSize As Integer
+Private Sub arr_txt_props_Change(Index As Integer)
+    If Index = 2 And arr_txt_props(0) = "" Then
+        arr_txt_props(0) = arr_txt_props(2)
+    End If
+    wprop_arr(Combo1.ListIndex + 1, Index) = arr_txt_props(Index)
+    PropertyPage.Changed = True
+End Sub
+Private Sub arr_cmb_props_Click(Index As Integer)
+    wprop_arr(Combo1.ListIndex + 1, Index + 7) = arr_cmb_props(Index).ItemData(arr_cmb_props(Index).ListIndex)
+    PropertyPage.Changed = True
+End Sub
+Private Sub Combo1_Click()
+    wf_callchng = False
+    wcolname = wprop_arr(Combo1.ListIndex + 1, 0)
+    For i = 0 To 6
+        arr_txt_props(i) = wprop_arr(Combo1.ListIndex + 1, i)
+    Next i
+    Call IniDataType(wprop_arr(Combo1.ListIndex + 1, 7))
+    For i = 0 To arr_cmb_props(1).ListCount - 1
+        If arr_cmb_props(1).ItemData(i) = wprop_arr(Combo1.ListIndex + 1, 8) Then
+            arr_cmb_props(1).ListIndex = i
+            Exit For
+        End If
+    Next i
+    For i = 0 To arr_cmb_props(2).ListCount - 1
+        If arr_cmb_props(2).ItemData(i) = wprop_arr(Combo1.ListIndex + 1, 9) Then
+            arr_cmb_props(2).ListIndex = i
+            Exit For
+        End If
+    Next i
+    TXT_RECALCPARENT = wprop_arr(Combo1.ListIndex + 1, 10)
+    wf_callchng = True
+End Sub
+Private Sub IniDataType(Value As Variant)
+    For i = 0 To arr_cmb_props(0).ListCount - 1
+        If arr_cmb_props(0).ItemData(i) = Value Then
+            arr_cmb_props(0).ListIndex = i
+            Exit For
+        End If
+    Next i
+End Sub
+Private Sub IniStyle(Value As Variant)
+    For i = 0 To arr_cmb_props(1).ListCount - 1
+        If arr_cmb_props(1).ItemData(i) = Value Then
+            arr_cmb_props(1).ListIndex = i
+            Exit For
+        End If
+    Next i
+End Sub
+Private Sub CmdData_Click()
+    TXT_DB = Mid(App.EXEName, 1, 3)
+    fra_Data.Visible = True
+    TXT_DB.SetFocus
+End Sub
+Private Sub List1_Click()
+    arr_txt_props(5) = IIf(arr_txt_props(5) <> "", arr_txt_props(5) + ",", "") + List1
+End Sub
+Private Sub PropertyPage_ApplyChanges()
+    wffrmt = Space(2) + "|"
+    For i = 1 To UBound(wprop_arr)
+        SelectedControls(0).ColProp(i).ColName = wprop_arr(i, 0)
+        SelectedControls(0).ColProp(i).Heading = wprop_arr(i, 1)
+        wffrmt = wffrmt + wprop_arr(i, 1) + "|"
+        SelectedControls(0).ColProp(i).DataFld = wprop_arr(i, 2)
+        SelectedControls(0).ColProp(i).Mask = wprop_arr(i, 3)
+        SelectedControls(0).ColProp(i).MaxLength = wprop_arr(i, 4)
+        SelectedControls(0).ColProp(i).ReCalcOn(SelectedControls(0)) = wprop_arr(i, 5)
+        SelectedControls(0).ColProp(i).ToolTipText = wprop_arr(i, 6)
+        SelectedControls(0).ColProp(i).DataType = wprop_arr(i, 7)
+        SelectedControls(0).ColProp(i).Style = wprop_arr(i, 8)
+        'SelectedControls(0).ColProp(i).HlpType = wprop_arr(i, 9)
+        'SelectedControls(0).ColProp(i).ReCalcParent = wprop_arr(i, 10)
+    Next i
+    SelectedControls(0).FormatString = Mid(wffrmt, 1, Len(wffrmt) - 1)
+    Set wtmprs = Nothing
+    Set wtmpconn = Nothing
+End Sub
+Private Sub PropertyPage_SelectionChanged()
+    Combo1.Clear
+    wtotcol = SelectedControls(0).Cols
+    ReDim wprop_arr(1 To wtotcol - 1, 10)
+    For i = 1 To UBound(wprop_arr)
+            wReqStr = "Columns" + Trim(CStr(i))
+            Combo1.Additem wReqStr
+            wprop_arr(i, 0) = SelectedControls(0).ColProp(i).ColName
+            wprop_arr(i, 1) = SelectedControls(0).ColProp(i).Heading
+            wprop_arr(i, 2) = SelectedControls(0).ColProp(i).DataFld
+            wprop_arr(i, 3) = SelectedControls(0).ColProp(i).Mask
+            wprop_arr(i, 4) = SelectedControls(0).ColProp(i).MaxLength
+            wprop_arr(i, 5) = SelectedControls(0).ColProp(i).ReCalcOn
+            wprop_arr(i, 6) = SelectedControls(0).ColProp(i).ToolTipText
+            wprop_arr(i, 7) = SelectedControls(0).ColProp(i).DataType
+            wprop_arr(i, 8) = SelectedControls(0).ColProp(i).Style
+            wprop_arr(i, 9) = ""
+            wprop_arr(i, 10) = SelectedControls(0).ColProp(i).ReCalcParent
+    Next i
+    List1.Clear
+    Dim waddstr As String
+    Dim waddstrcoll As String
+    
+    
+'*** Bef 20/01/05
+'    For Each Control In SelectedControls(0).ParentRef.Controls
+'        If TypeOf Control Is MWCTL_MED Or TypeOf Control Is MWCTL_FLX Then
+'            If TypeOf Control Is MWCTL_FLX Then
+'                For i = 1 To Control.Cols - 1
+'                    waddstr = Control.Name + "(" + Control.ColProp(i).ColName + ")"
+'                    List1.Additem waddstr
+'                Next i
+'            Else
+'                waddstr = Control.IdName
+'                List1.Additem waddstr
+'            End If
+'        End If
+'    Next
+'*** Bef 20/01/05
+
+    
+    '*** Jenny
+    Dim wo_Ctrl As Object
+    For Each wo_Ctrl In SelectedControls(0).ParentRef.Controls
+        If TypeOf wo_Ctrl Is MWCTL_MED Or TypeOf wo_Ctrl Is MWCTL_FLX Then
+            If TypeOf wo_Ctrl Is MWCTL_FLX Then
+                For i = 1 To wo_Ctrl.Cols - 1
+                    waddstr = wo_Ctrl.Name + "(" + wo_Ctrl.ColProp(i).ColName + ")"
+                    List1.Additem waddstr
+                Next i
+            Else
+                waddstr = wo_Ctrl.IdName
+                List1.Additem waddstr
+            End If
+        End If
+    Next
+    '*** Jenny
+    
+    arr_cmb_props(0).Clear
+    arr_cmb_props(0).Additem "CharType"
+    arr_cmb_props(0).ItemData(0) = en_FldDataType.fdtCharType
+    arr_cmb_props(0).Additem "Number"
+    arr_cmb_props(0).ItemData(1) = en_FldDataType.fdtNumber
+    arr_cmb_props(0).Additem "Float"
+    arr_cmb_props(0).ItemData(2) = en_FldDataType.fdtFloat
+    arr_cmb_props(0).Additem "DateType"
+    arr_cmb_props(0).ItemData(3) = en_FldDataType.fdtDateType
+    arr_cmb_props(0).Additem "ConvertToUpper"
+    arr_cmb_props(0).ItemData(4) = en_FldDataType.fdtConvertToUpper
+    arr_cmb_props(0).Additem "TimeType"
+    arr_cmb_props(0).ItemData(5) = en_FldDataType.fdtTimeType
+
+    arr_cmb_props(1).Additem "Normal"
+    arr_cmb_props(1).ItemData(0) = en_fgColStyle.fgcNormal
+    arr_cmb_props(1).Additem "ReadOnly"
+    arr_cmb_props(1).ItemData(1) = en_fgColStyle.fgcReadOnly
+    arr_cmb_props(1).Additem "Invisible"
+    arr_cmb_props(1).ItemData(2) = en_fgColStyle.fgcinvisible
+End Sub
+Private Sub CMB_TABLES_Click()
+    LST_COLUMNS.Clear
+    LST_COLDET.Clear
+    Set wtmprs = wtmpconn.OpenRes("Select * from " + CMB_TABLES)
+    For i = 0 To wtmprs.FldCount - 1
+        LST_COLUMNS.Additem " ¶ " + wtmprs.FldDets(i).fdFldName
+    Next
+End Sub
+Private Sub CMB_TABLES_GotFocus()
+    If TXT_DB <> "" And CMB_TABLES.ListCount = 0 Then
+        Call FilTables
+    End If
+    Const CB_SHOWDROPDOWN = &H14F
+    Dim Tmp
+    Tmp = SendMessage(CMB_TABLES.hwnd, CB_SHOWDROPDOWN, 1, ByVal 0&)
+End Sub
+Private Sub LST_COLUMNS_Click()
+    Dim wdata As EnMDOFldType
+    ColName = Mid(LST_COLUMNS, 4)
+    LST_COLDET.Clear
+    wdata = wtmprs.FldDets(ColName).fdFldType
+    wdatatype = Switch(wdata = mdoftString, "Character", wdata = mdoftInt, "Integer", wdata = mdoftFloat, "Float", wdata = mdoftDateTime, "DateTime")
+    LST_COLDET.Additem "Data Type      : " + wdatatype
+    LST_COLDET.Additem "Data Size      : " + CStr(wtmprs.FldDets(ColName).fdFldsize)
+    ms_selcolname = ColName
+    me_selcoltype = Switch(wdata = mdoftString, en_FldDataType.fdtConvertToUpper, wdata = mdoftInt, fdtNumber, wdata = mdoftFloat, fdtFloat, wdata = mdoftDateTime, fdtDateType)
+    mi_SelColSize = wtmprs.FldDets(ColName).fdFldsize
+End Sub
+Private Sub CmdOk_Click()
+    arr_txt_props(2) = ms_selcolname
+    Call IniDataType(me_selcoltype)
+    arr_txt_props(4) = mi_SelColSize
+    Call IniStyle(en_fgColStyle.fgcNormal)
+    fra_Data.Visible = False
+End Sub
+Private Sub cmdcancel_click()
+    fra_Data.Visible = False
+End Sub
+Private Sub FilTables()
+    On Error GoTo errh
+    CMB_TABLES.Clear
+    Dim wLogindets As SQLLogInDets
+    wLogindets.m_DSNName = Trim(TXT_DB)
+    Set wtmpconn = New MDOConnection
+    Call wtmpconn.SetConn(wLogindets)
+    Dim wtmptblrs As MDORowSet
+    Set wtmptblrs = wtmpconn.OpenTableRes
+    Do While Not (wtmptblrs.EOF Or wtmptblrs.BOF)
+'??? hcdd
+        If wtmptblrs.FldValue(3) = "TABLE" Then
+            CMB_TABLES.Additem wtmptblrs.FldValue(2)
+        End If
+        wtmptblrs.MoveNext
+    Loop
+    Set wtmptblrs = Nothing
+    Exit Sub
+errh:
+    MsgBox Err.Description
+End Sub
+Private Sub TXT_RECALCparent_Change()
+    wprop_arr(Combo1.ListIndex + 1, 10) = TXT_RECALCPARENT
+    PropertyPage.Changed = True
+End Sub

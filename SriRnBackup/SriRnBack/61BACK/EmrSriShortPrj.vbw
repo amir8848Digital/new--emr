@@ -1,0 +1,13 @@
+EmrClsFun = 0, 0, 0, 0, C
+EmrClsGrph = 66, 87, 916, 617, 
+CDirectory2 = 0, 0, 0, 0, C
+CExplorer2 = 0, 0, 0, 0, C
+IExplorerItem = 0, 0, 0, 0, C
+EmrClsHlp = 88, 116, 938, 646, 
+EmrClrMod = 44, 58, 983, 530, C
+EmrModEnDe = 0, 0, 0, 0, C
+Mod = 176, 232, 1026, 762, 
+EmrMod = 132, 174, 1071, 646, C
+EmrFrmMDI = 0, 0, 0, 0, C, 66, 87, 916, 617, C
+EmrFrmTrackStatus = 0, 0, 0, 0, C, 132, 174, 982, 704, C
+EmrFrmDsgMst = 44, 58, 983, 530, , 176, 232, 1026, 762, C

@@ -1,0 +1,33 @@
+Line 7: Could not create reference: '*\AMwfCtl.vbp'.
+Line 184: Class MwfCtl.MWCTL_BTN1 of control CMDOK was not a loaded control class.
+Line 219: Class MwfCtl.MWCTL_ADC of control ADC was not a loaded control class.
+Line 232: Class MwfCtl.MWCTL_CTL of control Ctl was not a loaded control class.
+Line 238: Class MwfCtl.MWCTL_BTN1 of control CMDCAN was not a loaded control class.
+Line 442: Class MwfCtl.MWCTL_BTN1 of control CmdCtlToolBar was not a loaded control class.
+Line 185: The property name Default in CMDOK is invalid.
+Line 192: The property name _ExtentX in CMDOK is invalid.
+Line 193: The property name _ExtentY in CMDOK is invalid.
+Line 195: The property name Caption in CMDOK is invalid.
+Line 196: The property name Pic in CMDOK is invalid.
+Line 197: The property name ReSizePic in CMDOK is invalid.
+Line 206: The property name LblFont in CMDOK is invalid.
+Line 207: The property name BtnDefault in CMDOK is invalid.
+Line 226: The property name _extentx in ADC is invalid.
+Line 227: The property name _extenty in ADC is invalid.
+Line 228: The property name btnwidth in ADC is invalid.
+Line 229: The property name btnheight in ADC is invalid.
+Line 230: The property name fontsz in ADC is invalid.
+Line 235: The property name _ExtentX in Ctl is invalid.
+Line 236: The property name _ExtentY in Ctl is invalid.
+Line 239: The property name Cancel in CMDCAN is invalid.
+Line 246: The property name _ExtentX in CMDCAN is invalid.
+Line 247: The property name _ExtentY in CMDCAN is invalid.
+Line 249: The property name Caption in CMDCAN is invalid.
+Line 250: The property name Pic in CMDCAN is invalid.
+Line 251: The property name ReSizePic in CMDCAN is invalid.
+Line 260: The property name LblFont in CMDCAN is invalid.
+Line 261: The property name BtnCancel in CMDCAN is invalid.
+Line 449: The property name _ExtentX in CmdCtlToolBar is invalid.
+Line 450: The property name _ExtentY in CmdCtlToolBar is invalid.
+Line 452: The property name DisableColor in CmdCtlToolBar is invalid.
+Line 461: The property name LblFont in CmdCtlToolBar is invalid.

@@ -1,0 +1,16 @@
+MWCTL_ADC = 44, 78, 1350, 560, C, 0, 0, 0, 0, C
+MWCTL_MED = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWCTL_FLX = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWCTL_GRP = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWCTL_HLP = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWCTL_REP = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWCLS_FLX = 0, 0, 0, 0, C
+MWCLS_GEN = 0, 0, 0, 0, C
+MWPAG_DATA = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWPAG_MED = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWPAG_FLX = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWPAG_REP = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWCTL_DST = 22, 39, 1328, 521, C, 0, 0, 0, 0, C
+MWFRM_PROC = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+MWREP_DATARNG = 0, 0, 0, 0, C, 66, 117, 626, 661, C
+MwfMod = 0, 0, 0, 0, C

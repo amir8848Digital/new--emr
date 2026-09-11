@@ -1,0 +1,6 @@
+MWCLS_GEN = 235, 47, 930, 560, 
+MDOConnection = 88, 88, 316, 267, 
+MDORowSet = 88, 88, 294, 332, 
+MwlMod = 22, 22, 439, 342, C
+MDOQuery = 44, 44, 354, 364, C
+MWFRM_PROC = -56, 67, 666, 223, C, 44, 44, 686, 364, C

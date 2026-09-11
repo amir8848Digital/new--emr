@@ -1,0 +1,170 @@
+VERSION 5.00
+Begin VB.PropertyPage MWPAG_DATA 
+   Caption         =   "PropertyPage1"
+   ClientHeight    =   4020
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   5625
+   PaletteMode     =   0  'Halftone
+   ScaleHeight     =   4020
+   ScaleWidth      =   5625
+   Begin VB.TextBox TXT_DB 
+      Height          =   375
+      Left            =   2040
+      TabIndex        =   0
+      Top             =   120
+      Width           =   2775
+   End
+   Begin VB.ListBox LST_COLDET 
+      BeginProperty Font 
+         Name            =   "Courier"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   645
+      Left            =   2040
+      TabIndex        =   3
+      Top             =   3120
+      Width           =   3375
+   End
+   Begin VB.ComboBox CMB_TABLES 
+      Height          =   315
+      Left            =   2040
+      Style           =   2  'Dropdown List
+      TabIndex        =   1
+      Top             =   600
+      Width           =   1815
+   End
+   Begin VB.ListBox LST_COLUMNS 
+      Columns         =   3
+      Height          =   1620
+      Left            =   120
+      Sorted          =   -1  'True
+      TabIndex        =   2
+      Top             =   1140
+      Width           =   5295
+   End
+   Begin VB.Label Label3 
+      Caption         =   "Details"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   6
+      Top             =   3240
+      Width           =   1455
+   End
+   Begin VB.Label Label1 
+      Caption         =   "DataBase"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   5
+      Top             =   120
+      Width           =   1215
+   End
+   Begin VB.Label Label2 
+      Caption         =   "Tables"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   4
+      Top             =   540
+      Width           =   1335
+   End
+End
+Attribute VB_Name = "MWPAG_DATA"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Dim wtmpconn As mwflib.MDOConnection
+Dim wtmprs As mwflib.MDORowSet
+Dim ColName As String
+Private Sub CMB_TABLES_Click()
+    LST_COLUMNS.Clear
+    LST_COLDET.Clear
+    Set wtmprs = wtmpconn.OpenRes("Select * from " + CMB_TABLES)
+    For i = 0 To wtmprs.FldCount - 1
+        LST_COLUMNS.Additem " ¶ " + wtmprs.FldDets(i).fdFldName
+    Next
+End Sub
+Private Sub CMB_TABLES_GotFocus()
+    If TXT_DB <> "" And CMB_TABLES.ListCount = 0 Then
+        Call FilTables
+    End If
+    Const CB_SHOWDROPDOWN = &H14F
+    Dim Tmp
+    Tmp = SendMessage(CMB_TABLES.hwnd, CB_SHOWDROPDOWN, 1, ByVal 0&)
+End Sub
+Private Sub LST_COLUMNS_Click()
+    Dim wdata As EnMDOFldType
+    ColName = Mid(LST_COLUMNS, 4)
+    LST_COLDET.Clear
+    wdata = wtmprs.FldDets(ColName).fdFldType
+    wdatatype = Switch(wdata = mdoftString, "Character", wdata = mdoftInt, "Integer", wdata = mdoftFloat, "Float", wdata = mdoftDateTime, "DateTime")
+    LST_COLDET.Additem "Data Type      : " + wdatatype
+    LST_COLDET.Additem "Data Size      : " + CStr(wtmprs.FldDets(ColName).fdFldsize)
+    PropertyPage.Changed = True
+End Sub
+Private Sub PropertyPage_ApplyChanges()
+    SelectedControls(0).DataField = ColName
+End Sub
+Private Sub PropertyPage_GotFocus()
+    TXT_DB.SetFocus
+End Sub
+Private Sub PropertyPage_SelectionChanged()
+    TXT_DB = Mid(App.EXEName, 1, 3)
+End Sub
+Private Sub TXT_DB_LostFocus()
+    Call FilTables
+End Sub
+Private Sub FilTables()
+    On Error GoTo errh
+    CMB_TABLES.Clear
+    Dim wLogindets As SQLLogInDets
+    wLogindets.m_DSNName = Trim(TXT_DB)
+    Set wtmpconn = New MDOConnection
+    Call wtmpconn.SetConn(wLogindets)
+    Dim wtmptblrs As MDORowSet
+    Set wtmptblrs = wtmpconn.OpenTableRes
+    Do While Not (wtmptblrs.EOF Or wtmptblrs.BOF)
+'??? hcdd
+        If wtmptblrs.FldValue(3) = "TABLE" Then
+            CMB_TABLES.Additem wtmptblrs.FldValue(2)
+        End If
+        wtmptblrs.MoveNext
+    Loop
+    Set wtmptblrs = Nothing
+    Exit Sub
+errh:
+    MsgBox Err.Description
+End Sub
+

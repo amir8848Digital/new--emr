@@ -1,0 +1,4 @@
+VBGROUP 5.0
+Project=..\61CtlBack\MwfCtl.vbp
+Project=..\61CtlBack\MwfLib.vbp
+StartupProject=EmrSriShortPrj.vbp

@@ -1,0 +1,130 @@
+VERSION 5.00
+Begin VB.PropertyPage MWPAG_MED 
+   Caption         =   "PropertyPage1"
+   ClientHeight    =   4350
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   7065
+   PaletteMode     =   0  'Halftone
+   ScaleHeight     =   4350
+   ScaleWidth      =   7065
+   Begin VB.TextBox TXT_RECALCPARENT 
+      BackColor       =   &H80000004&
+      Enabled         =   0   'False
+      ForeColor       =   &H80000015&
+      Height          =   855
+      Left            =   2190
+      MultiLine       =   -1  'True
+      TabIndex        =   4
+      Top             =   120
+      Width           =   4815
+   End
+   Begin VB.ListBox lst_ctls 
+      Height          =   2205
+      Left            =   2160
+      Sorted          =   -1  'True
+      TabIndex        =   1
+      Top             =   1860
+      Width           =   3255
+   End
+   Begin VB.TextBox TXT_RECALC 
+      Height          =   855
+      Left            =   2160
+      MultiLine       =   -1  'True
+      TabIndex        =   0
+      Top             =   990
+      Width           =   4815
+   End
+   Begin VB.Label Label1 
+      Caption         =   "Call Recalculate Of"
+      Height          =   375
+      Index           =   1
+      Left            =   240
+      TabIndex        =   5
+      Top             =   150
+      Width           =   1695
+   End
+   Begin VB.Label Label2 
+      Caption         =   "Controls"
+      Height          =   495
+      Left            =   240
+      TabIndex        =   3
+      Top             =   1830
+      Width           =   1815
+   End
+   Begin VB.Label Label1 
+      Caption         =   "Recalculate On"
+      Height          =   375
+      Index           =   0
+      Left            =   240
+      TabIndex        =   2
+      Top             =   1020
+      Width           =   1695
+   End
+End
+Attribute VB_Name = "MWPAG_MED"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Dim wcurobj As Object
+Private Sub lst_CTLS_Click()
+    TXT_RECALC = IIf(TXT_RECALC <> "", TXT_RECALC + ",", "") + lst_ctls
+End Sub
+Private Sub PropertyPage_ApplyChanges()
+    wcurobj.ReCalcOn = TXT_RECALC
+'    wcurobj.ReCalcParent = TXT_RECALCPARENT
+End Sub
+'*** Bef 20/01/05
+'Private Sub PropertyPage_SelectionChanged()
+'    Set wasd = SelectedControls(0).ParentRef
+'    lst_ctls.Clear
+'    For Each Control In wasd.Controls
+'        ASD = Control.Name
+'        If TypeOf Control Is MWCTL_FLX Or TypeOf Control Is MWCTL_MED Then
+'            If TypeOf Control Is MWCTL_FLX Then
+'                For i = 1 To Control.Cols - 1
+'                    wReqStr = Control.Name + "(" + Control.ColProp(i).ColName + ")"
+'                    lst_ctls.Additem wReqStr
+'                Next i
+'            Else
+'                wReqStr = Control.IdName
+'                lst_ctls.Additem wReqStr
+'            End If
+'        End If
+'    Next Control
+'    Set wcurobj = SelectedControls(0)
+'    TXT_RECALC = SelectedControls(0).ReCalcOn
+'    TXT_RECALCPARENT = SelectedControls(0).ReCalcParent
+'End Sub
+'*** Bef 20/01/05
+
+Private Sub PropertyPage_SelectionChanged()
+    Dim wo_Control As Object   '*** Jenny
+    Set wasd = SelectedControls(0).ParentRef
+    lst_ctls.Clear
+    For Each wo_Control In wasd.Controls
+        ASD = wo_Control.Name
+        If TypeOf wo_Control Is MWCTL_FLX Or TypeOf wo_Control Is MWCTL_MED Then
+            If TypeOf wo_Control Is MWCTL_FLX Then
+                For i = 1 To wo_Control.Cols - 1
+                    wReqStr = wo_Control.Name + "(" + wo_Control.ColProp(i).ColName + ")"
+                    lst_ctls.Additem wReqStr
+                Next i
+            Else
+                wReqStr = wo_Control.IdName
+                lst_ctls.Additem wReqStr
+            End If
+        End If
+    Next wo_Control
+    Set wcurobj = SelectedControls(0)
+    TXT_RECALC = SelectedControls(0).ReCalcOn
+    TXT_RECALCPARENT = SelectedControls(0).ReCalcParent
+End Sub
+Private Sub TXT_RECALC_Change()
+    PropertyPage.Changed = True
+End Sub
+Private Sub TXT_RECALCparent_Change()
+    PropertyPage.Changed = True
+End Sub
+        

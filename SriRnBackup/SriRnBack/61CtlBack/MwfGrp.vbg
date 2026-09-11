@@ -1,0 +1,4 @@
+VBGROUP 5.0
+Project=MwfCtl.vbp
+Project=MwfLib.vbp
+StartupProject=..\InOut6\IOPrj.vbp
